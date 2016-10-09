@@ -7,6 +7,7 @@
     "token": {
       "secret": "j96hOG+AtMGKZxW+os2twY4UtfL7M2k4EZmw5DHogF9yM+Fe0IkBzTESUK5xVLWQE/KSkSDzn1dzfqXHDpyFdg=="
     },
-    "local": {}
+    "local": {},
+    "successRedirect": "/timestar.html"
   }
 }
