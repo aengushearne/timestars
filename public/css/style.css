@@ -1,0 +1,19 @@
+* {
+	border: dashed 1px lightgrey;
+}
+.todo {
+	border-right: solid 1px grey;
+}
+.done {
+
+}
+.show-hide {
+    display:none;
+    margin: 0;
+    padding: 0;
+    clear:both;
+}
+.strike {
+	color: lightgreen;
+	text-decoration: line-through;
+}
