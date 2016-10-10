@@ -85,7 +85,8 @@ $(document).on('dblclick','li', function(){
   $(this).fadeOut('slow');//.toggleClass('show-hide');
 });
 
-function load() {
+app.authenticate().then(() => {
+//function load() {
   // Find the latest 10 todos. They will come with the newest first
   // which is why we have to reverse before adding them
   listsService.find({
@@ -97,6 +98,13 @@ function load() {
 
   // Listen to created events and add the new todo in real-time
   listsService.on('created', addTodo);
-}
+})
 
-load()
+//load()
+
+// On unauthorized errors we just redirect back to the login page
+.catch(error => {
+  if(error.code === 401) {
+    window.location.href = '/login.html'
+  }
+});
