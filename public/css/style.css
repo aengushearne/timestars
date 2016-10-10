@@ -1,16 +1,17 @@
- {
+div {
 	border: dashed 1px lightgrey;
 }
+.green {
+	background-color: #31D8A0;
+	color: white;
+}
 .done {
-
+	color: lightgreen;
+	text-decoration: line-through;
 }
 .show-hide {
     display:none;
     margin: 0;
     padding: 0;
     clear:both;
-}
-.strike {
-	color: lightgreen;
-	text-decoration: line-through;
 }

@@ -5,7 +5,7 @@ function addTodo(todo) {
   const todolist = $('.todolist');
 
   todolist.append(`
-    <li data-id="${ todo._id }">
+    <li class="${ todo.completed }" data-id="${ todo._id }">
       ${todo.todo}
       </li>
       `);
@@ -64,14 +64,14 @@ $(document).on('click','li', function(){
   listsService.update(itemId,{
     $set: {
     //todo: true
-    completed: true 
+    completed: 'done' 
     }
   });
 
   }
 
   $(this).toggleClass('done');
-  $(this).toggleClass('strike');//.fadeOut('slow');
+//  $(this).toggleClass('strike');//.fadeOut('slow');
 });
 
 $(document).on('dblclick','li', function(){
