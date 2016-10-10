@@ -4,18 +4,14 @@
 function addTodo(todo) {
   const todolist = $('.todolist');
 
-  todolist.append(`<div id="tditem">
-    <ul>
-    <li id="${ todo._id }">
+  todolist.append(`
+    <li data-id="${ todo._id }">
       ${todo.todo}
       </li>
-      </ul>
-  </div>`);
+      `);
 
   todolist.scrollTop(todolist[0].scrollHeight - todolist[0].clientHeight);
 }
-
-//      <input class="complete u-pull-right" type="checkbox"></p>
 
 // Establish a Socket.io connection
 const socket = io();
@@ -49,7 +45,7 @@ $('#list').on('submit', function(ev) {
 
 $(document).on('click','li', function(){
 
-  const itemId = $(this).prop('id');
+  const itemId = $(this).data('id');
  // const theclass = $(this).prop('class');
 //  console.log(itemId);
  // $('.test').append(itemId);
@@ -78,17 +74,21 @@ $(document).on('click','li', function(){
   $(this).toggleClass('strike');//.fadeOut('slow');
 });
 
-//$(document).dblclick(function() {
 $(document).on('dblclick','li', function(){
-  const itemId = $(this).prop('id');
+  const itemId = $(this).data('id');
   listsService.remove(itemId);
   $(this).fadeOut('slow');//.toggleClass('show-hide');
 });
 
-app.authenticate().then(() => {
+// Logout button
+$('#logout').on('click', function() {
+  app.logout().then(() => window.location.href = '/index.html');
+});
+
 //function load() {
   // Find the latest 10 todos. They will come with the newest first
   // which is why we have to reverse before adding them
+app.authenticate().then(() => {
   listsService.find({
     query: {
       $sort: { createdAt: -1 },
