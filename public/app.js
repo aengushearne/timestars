@@ -43,6 +43,7 @@ $('#list').on('submit', function(ev) {
 
  });
 
+// Mark done or not done
 $(document).on('click','li', function(){
 
   const itemId = $(this).data('id');
@@ -74,6 +75,7 @@ $(document).on('click','li', function(){
 //  $(this).toggleClass('strike');//.fadeOut('slow');
 });
 
+// Delete a list item
 $(document).on('dblclick','li', function(){
   const itemId = $(this).data('id');
   listsService.remove(itemId);
@@ -83,6 +85,35 @@ $(document).on('dblclick','li', function(){
 // Logout button
 $('#logout').on('click', function() {
   app.logout().then(() => window.location.href = '/index.html');
+});
+
+// Clock display
+function time() {
+        $('.clock').text(moment().format('HH:mm:ss'))
+
+        setTimeout(time, 1000)
+    };
+
+time()
+
+// Timer
+var now;
+var timerId;
+
+function timer() {
+  var end = moment();
+  var duration = end.from(now, true);
+  $('#time').text(duration);
+
+  timerId = setTimeout(timer, 1000);
+}
+$('#start').on('click', function() {
+  now = moment();
+  //$('#time').text(now);
+  timer()
+});
+$('#stop').on('click', function() {
+  clearTimeout(timerId);
 });
 
 //function load() {

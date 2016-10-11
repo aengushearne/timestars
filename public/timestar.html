@@ -34,17 +34,32 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
+  <div class="row">
+  <div class="six columns">
+  <h1><span class="clock"></span></h1>
+  </div>
+  <div class="six columns">
   <button class="button green u-pull-right" id="logout" type="button">Logout</button>
+  </div>
+  </div>
   </div>
 
   <div class="container">
     <div class="row">
     <div id='app'>
+    
     <div class=" six columns" style="margin-top: 5%">
-
+        <div id="timer">
+        <form>
+          <button class="button green u-pull-left" id="start" type="button">Start</button>
+          <button class="button green u-pull-right" id="stop" type="button">Stop</button>
+        </div>
+        </form>
+        <div class="title" id="time" style="margin-top: 5%"></div>
     </div>
+
       <div class="six columns" style="margin-top: 5%">
-      <form class="" id="list">Todo items:
+      <form id="list">Todo items:
       	<input type="text" name="todo">
       	<button class="button green" type="submit">Save</button>
       </form>
@@ -54,6 +69,7 @@
       </ul>
       </div>
       </div>
+
       </div>
     </div>
   </div>
