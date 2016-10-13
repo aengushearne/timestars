@@ -1,5 +1,5 @@
 'use strict';
-const points = require('./points');
+const profile = require('./profile');
 const tasks = require('./tasks');
 const projects = require('./projects');
 const lists = require('./lists');
@@ -15,5 +15,5 @@ module.exports = function() {
   app.configure(lists);
   app.configure(projects);
   app.configure(tasks);
-  app.configure(points);
+  app.configure(profile);
 };

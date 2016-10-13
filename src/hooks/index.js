@@ -6,8 +6,15 @@
 // see http://docs.feathersjs.com/hooks/readme.html for more details
 // on hooks.
 
-exports.myHook = function(options) {
+module.exports = function(options) {
   return function(hook) {
+
+  	    // The authenticated user
+    const user = hook.params.user;
+
+	hook.data = Object.assign({}, hook.data, {
+      userId: user._id
+    });
     console.log('My custom global hook ran. Feathers is awesome!');
   };
 };

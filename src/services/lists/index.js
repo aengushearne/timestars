@@ -9,7 +9,7 @@ module.exports = function(){
   const app = this;
 
   const db = new NeDB({
-    filename: path.join(app.get('nedb'), 'tdlists.db'),
+    filename: path.join(app.get('nedb'), 'lists.db'),
     autoload: true
   });
 

@@ -8,8 +8,9 @@
 module.exports = function(options) {
   return function(hook) {
 
-    // The authenticated user
-    const user = hook.params.user;
+    // The authenticated user ***done in Global
+  // const user = hook.params.user;
+
     // The actual message text
     const todo = hook.data.todo
       // Todoitems can't be longer than 400 characters
@@ -22,8 +23,8 @@ module.exports = function(options) {
     hook.data = {
       todo,
       completed,
-      // Set the user id
-      userId: user._id,
+      // Set the user id ***done in Global
+      // userId: user._id,
       // Add the current time via `getTime`
       createdAt: new Date().getTime()
     };
