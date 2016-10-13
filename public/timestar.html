@@ -53,9 +53,37 @@
         <form>
           <button class="button green u-pull-left" id="start" type="button">Start</button>
           <button class="button green u-pull-right" id="stop" type="button">Stop</button>
-        </div>
         </form>
+        </div>
+        
         <div class="title" id="time" style="margin-top: 5%"></div>
+        <div id="project">
+
+          <form id="newproject">
+            <button class="button green u-pull-left" id="createproject" type="submit">Create Project</button>
+            <input type="text" name="project-title" class="u-pull-right">
+          </form>
+          
+          <input list="projects" class="">
+          <datalist id="projects">
+          </datalist> 
+
+        </div>
+        
+        <div class="title" style="margin-top: 5%"></div>
+        <div id="task">
+
+        <form id="newtask">
+          <button class="button green u-pull-left" id="createtask" type="submit">Create Task</button>
+          <input type="text" name="task-title" class="u-pull-right">
+        </form>
+
+        <input list="tasks" class="">
+          <datalist id="tasks">
+          </datalist> 
+
+        </div>
+
     </div>
 
       <div class="six columns" style="margin-top: 5%">

@@ -10,7 +10,22 @@ function addTodo(todo) {
       </li>
       `);
 
-  todolist.scrollTop(todolist[0].scrollHeight - todolist[0].clientHeight);
+}
+// Renders a new project and adds it to datalist dropdown
+function addProject(project) {
+  const projects = $('#projects');
+
+  projects.append(`
+    <option value="${ project.title }">
+      `);
+}
+// Renders a new task and adds it to datalist dropdown
+function addTask(task) {
+  const tasks = $('#tasks');
+
+  tasks.append(`
+    <option value="${ task.title }">
+      `);
 }
 
 // Establish a Socket.io connection
@@ -27,17 +42,46 @@ const app = feathers()
 
 // Get the Feathers services we want to use
 const listsService = app.service('lists');
+const projectsService = app.service('projects');
+const tasksService = app.service('tasks');
+
+$('#newproject').on('submit', function(ev) {
+  // This is the project text input field
+  const project = $(this).find('[name="project-title"]');
+
+  // Create a new project and then clear the input field
+  projectsService.create({
+    title: project.val(),
+    completed: false
+  }).then(todo => project.val(''));
+
+  ev.preventDefault();
+
+ });
+
+$('#newtask').on('submit', function(ev) {
+  // This is the task text input field
+  const task = $(this).find('[name="task-title"]');
+
+  // Create a new task and then clear the input field
+  tasksService.create({
+    title: task.val(),
+    completed: false
+  }).then(todo => task.val(''));
+
+  ev.preventDefault();
+
+ });
 
 $('#list').on('submit', function(ev) {
   // This is the todo text input field
   const item = $(this).find('[name="todo"]');
-  const completed = $(this).find('[name="completed"]');
 
   // Create a new todo and then clear the input field
   listsService.create({
     todo: item.val(),
     completed: false
-  }).then(todo => item.val(''), completed.val(false));
+  }).then(todo => item.val(''));
 
   ev.preventDefault();
 
@@ -129,6 +173,26 @@ app.authenticate().then(() => {
 
   // Listen to created events and add the new todo in real-time
   listsService.on('created', addTodo);
+
+  projectsService.find({
+    query: {
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(page => page.data.reverse().forEach(addProject));
+
+  // Listen to created events and add the new project in real-time
+  projectsService.on('created', addProject);
+
+    tasksService.find({
+    query: {
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(page => page.data.reverse().forEach(addTask));
+
+  // Listen to created events and add the new task in real-time
+  tasksService.on('created', addTask);
 })
 
 //load()
