@@ -1,4 +1,4 @@
-div {
+xdiv {
 	border: dashed 1px lightgrey;
 }
 .green {
@@ -17,4 +17,7 @@ div {
 }
 .clock {
 	color: grey;
+}
+.inactive {
+	opacity: 0.25;
 }

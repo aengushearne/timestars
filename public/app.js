@@ -9,22 +9,23 @@ function addTodo(todo) {
       ${todo.todo}
       </li>
       `);
-
 }
 // Renders a new project and adds it to datalist dropdown
 function addProject(project) {
+
   const projects = $('#projects');
 
   projects.append(`
-    <option value="${ project.title }">
+    <option data-id="${ project._id }" value="${ project.title }">
       `);
 }
-// Renders a new task and adds it to datalist dropdown
+// Renders a new task and adds it to datalist dropdown. Sets selectedTask to the new task.
 function addTask(task) {
+
   const tasks = $('#tasks');
 
   tasks.append(`
-    <option value="${ task.title }">
+    <option data-id="${ task._id }" value="${ task.title }">
       `);
 }
 
@@ -45,6 +46,10 @@ const listsService = app.service('lists');
 const projectsService = app.service('projects');
 const tasksService = app.service('tasks');
 
+var selectedProject;
+var selectedTask;
+var selectedList;
+
 $('#newproject').on('submit', function(ev) {
   // This is the project text input field
   const project = $(this).find('[name="project-title"]');
@@ -52,12 +57,28 @@ $('#newproject').on('submit', function(ev) {
   // Create a new project and then clear the input field
   projectsService.create({
     title: project.val(),
-    completed: false
-  }).then(todo => project.val(''));
+    completed: false,
+    startDate: null,
+    endDate: null
+  }).then(todo => {
+    project.val('');
+    selectedProject = todo._id;
+    console.log(selectedProject);
+  });
 
   ev.preventDefault();
 
  });
+
+$('#projlist').on('change', function(ev) {
+  selectedProject = 'bullshit';//$('option').data('id');
+  $('#test').append('projects working' + selectedProject);
+});
+
+$('#tasklist').on('change', function(ev) {
+  selectedTask = $('option').data('id');
+  $('#test').append('tasks working' + selectedTask);
+});
 
 $('#newtask').on('submit', function(ev) {
   // This is the task text input field
@@ -66,8 +87,19 @@ $('#newtask').on('submit', function(ev) {
   // Create a new task and then clear the input field
   tasksService.create({
     title: task.val(),
-    completed: false
-  }).then(todo => task.val(''));
+    completed: false,
+    totalTime: 0,
+    startTime: null,
+    endTime: null,
+    due: null,
+    isMilestone: false,
+    milestoneName: null
+  }).then(todo => {
+    task.val('');
+    selectedTask = todo._id;
+    console.log(selectedTask);
+  }
+  );
 
   ev.preventDefault();
 
@@ -80,7 +112,9 @@ $('#list').on('submit', function(ev) {
   // Create a new todo and then clear the input field
   listsService.create({
     todo: item.val(),
-    completed: false
+    completed: false,
+    completedDate: null,
+    due: null
   }).then(todo => item.val(''));
 
   ev.preventDefault();
@@ -140,13 +174,37 @@ function time() {
 
 time()
 
+
+// Add elapsed time to task total
+function taskTime(add) {
+
+  var elapsed;
+
+tasksService.find({
+  query: {
+    _id: selectedTask,
+    $select: ['totalTime']
+  }
+}).then(function(res) {
+ elapsed = res.data[0].totalTime;
+ var total = elapsed + add;
+
+    tasksService.update(selectedTask,{
+    $set: {
+    totalTime: total
+    }
+  });
+});
+}
+
 // Timer
 var now;
 var timerId;
+var duration;
 
 function timer() {
   var end = moment();
-  var duration = end.from(now, true);
+  duration = end.diff(now, 'seconds');//from(now, true);
   $('#time').text(duration);
 
   timerId = setTimeout(timer, 1000);
@@ -158,6 +216,7 @@ $('#start').on('click', function() {
 });
 $('#stop').on('click', function() {
   clearTimeout(timerId);
+  taskTime(duration);
 });
 
 //function load() {

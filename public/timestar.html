@@ -5,7 +5,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>BingBang</title>
+  <title>Timer</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -37,6 +37,7 @@
   <div class="row">
   <div class="six columns">
   <h1><span class="clock"></span></h1>
+  <h1><span id="test"></span></h1>
   </div>
   <div class="six columns">
   <button class="button green u-pull-right" id="logout" type="button">Logout</button>
@@ -49,14 +50,7 @@
     <div id='app'>
     
     <div class=" six columns" style="margin-top: 5%">
-        <div id="timer">
-        <form>
-          <button class="button green u-pull-left" id="start" type="button">Start</button>
-          <button class="button green u-pull-right" id="stop" type="button">Stop</button>
-        </form>
-        </div>
         
-        <div class="title" id="time" style="margin-top: 5%"></div>
         <div id="project">
 
           <form id="newproject">
@@ -64,7 +58,7 @@
             <input type="text" name="project-title" class="u-pull-right">
           </form>
           
-          <input list="projects" class="">
+          <input list="projects" id="projlist">
           <datalist id="projects">
           </datalist> 
 
@@ -78,12 +72,20 @@
           <input type="text" name="task-title" class="u-pull-right">
         </form>
 
-        <input list="tasks" class="">
+        <input list="tasks" id="tasklist">
           <datalist id="tasks">
           </datalist> 
 
         </div>
 
+        <div id="timer">
+        <form>
+          <button class="button green u-pull-left" id="start" type="button">Start</button>
+          <button class="button green u-pull-right" id="stop" type="button">Stop</button>
+        </form>
+        </div>
+
+        <div id="time" style="margin-top: 15%"></div>
     </div>
 
       <div class="six columns" style="margin-top: 5%">
