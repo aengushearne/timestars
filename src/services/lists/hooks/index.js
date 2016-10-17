@@ -16,7 +16,7 @@ exports.before = {
   find: [],
   get: [],
   create: [
-  listsProcess(),
+  //listsProcess(),
   globalHooks()
   ],
   update: [],

@@ -13,19 +13,19 @@ function addTodo(todo) {
 // Renders a new project and adds it to datalist dropdown
 function addProject(project) {
 
-  const projects = $('#projects');
+  const projects = $('#projlist');
 
   projects.append(`
-    <option data-id="${ project._id }" value="${ project.title }">
+    <option data-id="${ project._id }" value="${ project.title }">${ project.title }</option>
       `);
 }
 // Renders a new task and adds it to datalist dropdown. Sets selectedTask to the new task.
 function addTask(task) {
 
-  const tasks = $('#tasks');
+  const tasks = $('#tasklist');
 
   tasks.append(`
-    <option data-id="${ task._id }" value="${ task.title }">
+    <option data-id="${ task._id }" value="${ task.title }">${ task.title }</option>
       `);
 }
 
@@ -50,6 +50,15 @@ var selectedProject;
 var selectedTask;
 var selectedList;
 
+// Set currently selected project & task
+$('#projlist').change(function(){
+  selectedProject = $(this).children('option:selected').data('id');
+});
+
+$('#tasklist').change(function(){
+  selectedTask = $(this).children('option:selected').data('id');
+});
+
 $('#newproject').on('submit', function(ev) {
   // This is the project text input field
   const project = $(this).find('[name="project-title"]');
@@ -63,22 +72,11 @@ $('#newproject').on('submit', function(ev) {
   }).then(todo => {
     project.val('');
     selectedProject = todo._id;
-    console.log(selectedProject);
   });
 
   ev.preventDefault();
 
  });
-
-$('#projlist').on('change', function(ev) {
-  selectedProject = 'bullshit';//$('option').data('id');
-  $('#test').append('projects working' + selectedProject);
-});
-
-$('#tasklist').on('change', function(ev) {
-  selectedTask = $('option').data('id');
-  $('#test').append('tasks working' + selectedTask);
-});
 
 $('#newtask').on('submit', function(ev) {
   // This is the task text input field
@@ -93,11 +91,11 @@ $('#newtask').on('submit', function(ev) {
     endTime: null,
     due: null,
     isMilestone: false,
-    milestoneName: null
+    milestoneName: null,
+    projID: selectedProject
   }).then(todo => {
     task.val('');
     selectedTask = todo._id;
-    console.log(selectedTask);
   }
   );
 
@@ -114,7 +112,8 @@ $('#list').on('submit', function(ev) {
     todo: item.val(),
     completed: false,
     completedDate: null,
-    due: null
+    due: null,
+    taskID: selectedTask
   }).then(todo => item.val(''));
 
   ev.preventDefault();
