@@ -19,7 +19,7 @@ function addProject(project) {
     <option data-id="${ project._id }" value="${ project.title }">${ project.title }</option>
       `);
 }
-// Renders a new task and adds it to datalist dropdown. Sets selectedTask to the new task.
+// Renders a new task and adds it to datalist dropdown.
 function addTask(task) {
 
   const tasks = $('#tasklist');
@@ -53,10 +53,37 @@ var selectedList;
 // Set currently selected project & task
 $('#projlist').change(function(){
   selectedProject = $(this).children('option:selected').data('id');
+
+      tasksService.find({
+          query: {
+      projID: selectedProject,
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(page => page.data.reverse().forEach(addTask));
 });
 
 $('#tasklist').change(function(){
   selectedTask = $(this).children('option:selected').data('id');
+
+      listsService.find({
+          query: {
+      taskID: selectedTask,
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(page => {
+    $('.todolist').html('');
+    page.data.reverse().forEach(addTodo);
+  });
+
+  tasksService.find({
+  query: {
+    _id: selectedTask,
+    $select: ['totalTime']
+  }
+}).then(res => $('#elapsedTaskTime').text(res.data[0].totalTime));
+
 });
 
 $('#newproject').on('submit', function(ev) {
@@ -188,6 +215,8 @@ tasksService.find({
  elapsed = res.data[0].totalTime;
  var total = elapsed + add;
 
+ (selectedTask?$('#elapsedTaskTime').text(total):0);
+
     tasksService.update(selectedTask,{
     $set: {
     totalTime: total
@@ -222,16 +251,6 @@ $('#stop').on('click', function() {
   // Find the latest 10 todos. They will come with the newest first
   // which is why we have to reverse before adding them
 app.authenticate().then(() => {
-  listsService.find({
-    query: {
-      $sort: { createdAt: -1 },
-      $limit: 25
-    }
-  }).then(page => page.data.reverse().forEach(addTodo));
-
-  // Listen to created events and add the new todo in real-time
-  listsService.on('created', addTodo);
-
   projectsService.find({
     query: {
       $sort: { createdAt: -1 },
@@ -239,15 +258,15 @@ app.authenticate().then(() => {
     }
   }).then(page => page.data.reverse().forEach(addProject));
 
+  // Listen to created events and add the new todo in real-time
+  listsService.on('created', addTodo);
+
+  
+
   // Listen to created events and add the new project in real-time
   projectsService.on('created', addProject);
 
-    tasksService.find({
-    query: {
-      $sort: { createdAt: -1 },
-      $limit: 25
-    }
-  }).then(page => page.data.reverse().forEach(addTask));
+
 
   // Listen to created events and add the new task in real-time
   tasksService.on('created', addTask);
