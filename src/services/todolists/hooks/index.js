@@ -1,7 +1,5 @@
 'use strict';
 
-const listsProcess = require('./lists-process');
-
 const globalHooks = require('../../../hooks');
 const auth = require('feathers-authentication').hooks;
 const hooks = require('feathers-hooks');
@@ -16,7 +14,6 @@ exports.before = {
   find: [],
   get: [],
   create: [
-  //listsProcess(),
   globalHooks()
   ],
   update: [],

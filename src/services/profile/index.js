@@ -1,20 +1,14 @@
 'use strict';
 
-const path = require('path');
-const NeDB = require('nedb');
-const service = require('feathers-nedb');
+const service = require('feathers-mongoose');
+const profile = require('./profile-model');
 const hooks = require('./hooks');
 
-module.exports = function(){
+module.exports = function() {
   const app = this;
 
-  const db = new NeDB({
-    filename: path.join(app.get('nedb'), 'profile.db'),
-    autoload: true
-  });
-
-  let options = {
-    Model: db,
+  const options = {
+    Model: profile,
     paginate: {
       default: 5,
       max: 25
@@ -22,10 +16,10 @@ module.exports = function(){
   };
 
   // Initialize our service with any options it requires
-  app.use('/profile', service(options));
+  app.use('/profiles', service(options));
 
   // Get our initialize service to that we can bind hooks
-  const profileService = app.service('/profile');
+  const profileService = app.service('/profiles');
 
   // Set up our before hooks
   profileService.before(hooks.before);

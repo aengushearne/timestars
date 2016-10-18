@@ -8,7 +8,9 @@ exports.before = {
   all: [],
   find: [],
   get: [],
-  create: [],
+  create: [
+  globalHooks()
+  ],
   update: [],
   patch: [],
   remove: []

@@ -7,13 +7,7 @@ module.exports = function(app) {
     // Get the user service and `create` a new user
     app.service('users').create({
       email: body.email,
-      password: body.password,
-      active: true,
-      name: null,
-      points: null,
-      milestones: null,
-      // Add the current time via `getTime`
-      createdAt: new Date().getTime()
+      password: body.password
     })
     // Then redirect to the login page
     .then(user => res.redirect('/login.html'))

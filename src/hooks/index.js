@@ -13,7 +13,7 @@ module.exports = function(options) {
     const user = hook.params.user;
 
 	hook.data = Object.assign({}, hook.data, {
-      userId: user._id
+      userID: user._id
     });
     console.log('My custom global hook ran. Feathers is awesome!');
   };

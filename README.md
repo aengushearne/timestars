@@ -1,6 +1,6 @@
 # timestar
 
-> 
+> A productivity app
 
 ## About
 

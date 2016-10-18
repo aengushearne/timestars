@@ -40,7 +40,7 @@ const app = feathers()
   }));
 
 // Get the Feathers services we want to use
-const listsService = app.service('lists');
+const listsService = app.service('todolists');
 const projectsService = app.service('projects');
 const tasksService = app.service('tasks');
 
@@ -92,9 +92,9 @@ $('#newproject').on('submit', function(ev) {
   // Create a new project and then clear the input field
   projectsService.create({
     title: project.val(),
-    completed: false,
+    completed: false/*,
     startDate: null,
-    endDate: null
+    endDate: null*/
   }).then(todo => {
     project.val('');
     selectedProject = todo._id;
@@ -111,13 +111,13 @@ $('#newtask').on('submit', function(ev) {
   // Create a new task and then clear the input field
   tasksService.create({
     title: task.val(),
-    completed: false,
+    /*completed: false,
     totalTime: 0,
     startTime: null,
     endTime: null,
     due: null,
     isMilestone: false,
-    milestoneName: null,
+    milestoneName: null,*/
     projID: selectedProject
   }).then(todo => {
     task.val('');
@@ -136,9 +136,9 @@ $('#list').on('submit', function(ev) {
   // Create a new todo and then clear the input field
   listsService.create({
     todo: item.val(),
-    completed: false,
+    /*completed: false,
     completedDate: null,
-    due: null,
+    due: null,*/
     taskID: selectedTask
   }).then(todo => item.val(''));
 
