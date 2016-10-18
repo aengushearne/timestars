@@ -34,78 +34,66 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-  <div class="row">
-  <div class="six columns">
-  <h1><span class="clock"></span></h1>
-  <h1><span id="test"></span></h1>
-  </div>
-  <div class="six columns">
-  <button class="button green u-pull-right" id="logout" type="button">Logout</button>
-  </div>
-  </div>
+  <div class="row componentdiv">
+
+  <div class="full column">
+  <h1><span class="clock left"></span></h1>
+  <button class="button green right" id="logout" type="button">Logout</button>
+  <div style="clear: both;"></div>
   </div>
 
+  </div>
+  </div>
+    
+  <div id='app'>
   <div class="container">
     <div class="row">
-    <div id='app'>
     
-    <div class=" six columns" style="margin-top: 5%">
+    <div class="six columns ">
         
-        <div id="project">
+        <div id="project" class="componentdiv">
 
           <form id="newproject">
-            <button class="button green u-pull-left" id="createproject" type="submit">Create Project</button>
-            <input type="text" name="project-title" class="u-pull-right">
+            <button class="button green right" id="createproject" type="submit">Create Project</button>
+            <input type="text" name="project-title" class="left">
           </form>
-          
-          <!--
-          <input list="projects" id="projlist">
-          <datalist id="projects">
-          </datalist> 
-          -->
+          <div style="clear: both;"></div>
           <select id="projlist">
           <option value="" selected>Projects ---></option>
           </select> 
 
         </div>
         
-        <div class="title" style="margin-top: 5%"></div>
-        <div id="task">
+        <div id="task" class="componentdiv inactive">
 
         <form id="newtask">
-          <button class="button green u-pull-left" id="createtask" type="submit">Create Task</button>
-          <input type="text" name="task-title" class="u-pull-right">
+          <button class="button green right" id="createtask" type="submit">Create Task</button>
+          <input type="text" name="task-title" class="left">
         </form>
 
-        <!--
-        <input list="tasks" id="tasklist">
-          <datalist id="tasks">
-          </datalist>
-          -->
+          <div style="clear: both;"></div>
           <select id="tasklist">
           <option value="" selected>Tasks --------></option>
           </select> 
           <p>Time this task so far: <span id="elapsedTaskTime">0</span> seconds</p>
 
-        </div>
-
         <div id="timer">
         <form>
-          <button class="button green u-pull-left" id="start" type="button">Start</button>
-          <button class="button green u-pull-right" id="stop" type="button">Stop</button>
+          <button class="button green left" id="start" type="button">Start</button>&nbsp;&nbsp;&nbsp;Add <span id="time">0</span> seconds
+          <button class="button green right" id="stop" type="button">Stop</button>
         </form>
         </div>
+        </div>
 
-        <div id="time" style="margin-top: 15%"></div>
     </div>
 
-      <div class="six columns" style="margin-top: 5%">
-      <form id="list">Todo items:
+      <div id="tododiv" class="six columns componentdiv inactive">
+      <form id="list">
       	<input type="text" name="todo">
-      	<button class="button green" type="submit">Save</button>
+      	<button class="button green right" type="submit">Create To-do Item</button>
       </form>
       <div class="title">To do:</div>
-      <div id="tditem" style="margin-top: 3%">
+      <div id="tditem">
       <ul class="todolist">
       </ul>
       </div>

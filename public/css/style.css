@@ -18,6 +18,21 @@ xdiv {
 .clock {
 	color: grey;
 }
+#tditem {
+	margin-top: 3%;
+}
 .inactive {
-	opacity: 0.25;
+	display: none;
+}
+.componentdiv {
+	border: solid 4px #31D8A0;
+	border-radius: 20px;
+	padding: 25px;
+	margin-top: 15px;
+}
+.right {
+	float:right;
+}
+.left {
+	float:left;
 }

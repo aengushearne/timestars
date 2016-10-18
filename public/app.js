@@ -5,9 +5,7 @@ function addTodo(todo) {
   const todolist = $('.todolist');
 
   todolist.append(`
-    <li class="${ todo.completed }" data-id="${ todo._id }">
-      ${todo.todo}
-      </li>
+    <li class="${ todo.completed }" data-id="${ todo._id }">${todo.todo}</li>
       `);
 }
 // Renders a new project and adds it to datalist dropdown
@@ -61,6 +59,7 @@ $('#projlist').change(function(){
       $limit: 25
     }
   }).then(page => page.data.reverse().forEach(addTask));
+  $('#task').fadeIn('slow').removeClass('inactive');
 });
 
 $('#tasklist').change(function(){
@@ -83,7 +82,7 @@ $('#tasklist').change(function(){
     $select: ['totalTime']
   }
 }).then(res => $('#elapsedTaskTime').text(res.data[0].totalTime));
-
+$('#tododiv').fadeIn('slow').removeClass('inactive');
 });
 
 $('#newproject').on('submit', function(ev) {
@@ -239,7 +238,6 @@ function timer() {
 }
 $('#start').on('click', function() {
   now = moment();
-  //$('#time').text(now);
   timer()
 });
 $('#stop').on('click', function() {
