@@ -23,7 +23,7 @@ function addTask(task) {
   const tasks = $('#tasklist');
 
   tasks.append(`
-    <option data-id="${ task._id }" value="${ task.title }">${ task.title }</option>
+    <option class="taskmenuitem" data-id="${ task._id }" value="${ task.title }">${ task.title }</option>
       `);
 }
 
@@ -58,7 +58,11 @@ $('#projlist').change(function(){
       $sort: { createdAt: -1 },
       $limit: 25
     }
-  }).then(page => page.data.reverse().forEach(addTask));
+  }).then(page => {
+    $('.taskmenuitem').remove();
+    $('#tododiv').fadeOut('slow').addClass('inactive');
+    page.data.reverse().forEach(addTask);
+  });
   $('#task').fadeIn('slow').removeClass('inactive');
 });
 
