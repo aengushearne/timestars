@@ -101,7 +101,7 @@ $('#newproject').on('submit', function(ev) {
   });
 
   ev.preventDefault();
-
+  $('#task').fadeIn('slow').removeClass('inactive');
  });
 
 $('#newtask').on('submit', function(ev) {
@@ -126,7 +126,7 @@ $('#newtask').on('submit', function(ev) {
   );
 
   ev.preventDefault();
-
+  $('#tododiv').fadeIn('slow').removeClass('inactive');
  });
 
 $('#list').on('submit', function(ev) {
