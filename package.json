@@ -1,11 +1,13 @@
 {
   "name": "timestar",
   "description": "A productivity app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "",
   "main": "src/",
   "keywords": [
-    "feathers"
+    "productivity",
+    "to-do",
+    "timer"
   ],
   "license": "MIT",
   "repository": {},

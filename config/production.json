@@ -1,5 +1,5 @@
 {
-  "host": "timestar-app.feathersjs.com",
+  "host": "heroku",
   "port": 80,
   "mongodb": "DATABASE_URL",
   "public": "../public/",
