@@ -18,6 +18,9 @@ xdiv {
 .grey {
 	color: grey;
 }
+.off {
+	color: lightgrey;
+}
 #tditem {
 	margin-top: 3%;
 }
@@ -35,4 +38,15 @@ xdiv {
 }
 .left {
 	float:left;
+}
+.delete {
+	color: pink;
+}
+table {
+	color: lightgreen;
+}
+xtd {
+	text-align: center;
+	border: dashed 1px lightgrey;
+	color: lightgreen;
 }

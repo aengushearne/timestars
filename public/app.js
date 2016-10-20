@@ -51,6 +51,19 @@ var selectedList;
 // Set currently selected project & task
 $('#projlist').change(function(){
   selectedProject = $(this).children('option:selected').data('id');
+  let selectedTitle = $(this).children('option:selected').attr('value');
+
+      projectsService.find({
+          query: {
+      _id: selectedProject,
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(proj => {
+    $('#selectedproj').text(proj.data[0].title);
+    $('#totalprojhours').text(proj.data[0].totalHours);
+    $('#totalbill').text(proj.data[0].totalBillable);
+  });
 
       tasksService.find({
           query: {
@@ -68,6 +81,20 @@ $('#projlist').change(function(){
 
 $('#tasklist').change(function(){
   selectedTask = $(this).children('option:selected').data('id');
+  let selectedTitle = $(this).children('option:selected').attr('value');
+
+      tasksService.find({
+          query: {
+      _id: selectedTask,
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(task => {
+    $('#selectedtask').text(task.data[0].title);
+    $('#taskbillable').text(task.data[0].isBillable)
+    $('#hourlyrate').text(task.data[0].rate);
+    $('#elapsedTaskTime').text(task.data[0].totalTime);
+  });
 
       listsService.find({
           query: {
@@ -87,6 +114,47 @@ $('#tasklist').change(function(){
   }
 }).then(res => $('#elapsedTaskTime').text(res.data[0].totalTime));
 $('#tododiv').fadeIn('slow').removeClass('inactive');
+$('#selectedtask').html(selectedTitle);
+});
+
+// Delete a project
+$('#deleteproj').on('click', function(){
+  const projId = selectedProject;
+  $('#projlist').children('option[data-id='+projId+']').remove();
+  projectsService.remove(projId);
+
+  tasksService.find({
+    query:{
+      projID: projId
+    }
+  }).then(task => {
+    task.data.forEach(entry => {
+      tasksService.remove(entry._id) 
+    });
+  });
+
+  $('#selectedproj').text('------------');
+  $('#totalprojhours').text('0');
+  $('#totalbill').text('0');
+});
+
+// Delete a task
+$('#deletetask').on('click', function(){
+  const taskId = selectedTask;
+  $('#tasklist').children('option[data-id='+taskId+']').remove();
+  tasksService.remove(taskId);
+
+  listsService.find({
+    query:{
+      taskID: taskId
+    }
+  }).then(todo => todo.data.forEach(entry => listsService.remove(entry._id) ));
+
+  $('#selectedtask').text('------------');
+  $('#taskbillable').text()
+  $('#hourlyrate').text('0');
+  $('#elapsedTaskTime').text('0');
+  $('.todolist').html('');
 });
 
 $('#newproject').on('submit', function(ev) {
@@ -99,9 +167,14 @@ $('#newproject').on('submit', function(ev) {
     completed: false/*,
     startDate: null,
     endDate: null*/
-  }).then(todo => {
+  }).then(proj => {
     project.val('');
-    selectedProject = todo._id;
+    selectedProject = proj._id;
+    //$('#projlist option:selected').removeAttr('selected');
+    //$("#projlist option[value="+proj.title+"]").attr('selected');
+    $('#selectedproj').text(proj.title);
+    $('#totalprojhours').text(proj.totalHours);
+    $('#totalbill').text(proj.totalBillable);
   });
 
   ev.preventDefault();
@@ -110,11 +183,11 @@ $('#newproject').on('submit', function(ev) {
 
 $('#newtask').on('submit', function(ev) {
   // This is the task text input field
-  const task = $(this).find('[name="task-title"]');
+  const newtask = $(this).find('[name="task-title"]');
 
   // Create a new task and then clear the input field
   tasksService.create({
-    title: task.val(),
+    title: newtask.val(),
     /*completed: false,
     totalTime: 0,
     startTime: null,
@@ -123,9 +196,13 @@ $('#newtask').on('submit', function(ev) {
     isMilestone: false,
     milestoneName: null,*/
     projID: selectedProject
-  }).then(todo => {
-    task.val('');
-    selectedTask = todo._id;
+  }).then(task => {
+    newtask.val('');
+    selectedTask = task._id;
+    $('#selectedtask').text(task.title);
+    $('#taskbillable').text(task.isBillable)
+    $('#hourlyrate').text(task.rate);
+    $('#elapsedTaskTime').text(task.totalTime);
   }
   );
 

@@ -64,8 +64,18 @@
           </form>
           <div style="clear: both;"></div>
           <select id="projlist">
-          <option value="" selected>Projects ---></option>
-          </select> 
+          <option value="default" data-id="null">Projects ---></option>
+          </select>
+          <table class="selectedtable right">
+            <tbody>
+            <tr class="projtr">
+              <td id="selectedproj">------------</td>
+              <td class="grey"><span id="totalprojhours">0</span> hrs</td>
+              <td class="grey">$<span id="totalbill">0</span></td>
+              <td id="deleteproj" class="delete">X</td>
+            </tr>
+            </tbody>
+          </table>
 
         </div>
         
@@ -78,10 +88,21 @@
 
           <div style="clear: both;"></div>
           <select id="tasklist">
-          <option value="" selected>Tasks --------></option>
-          </select> 
-          <p>Time this task so far: <span id="elapsedTaskTime">0</span> seconds</p>
-
+          <option value="default" data-id="null" selected>Tasks --------></option>
+          </select>
+          <table class="selectedtable right">
+            <thead></thead>
+            <tbody>
+            <tr>
+              <td id="selectedtask">------------</td>
+              <td class="off" id="taskbillable">$</td>
+              <td class="off">$<span id="hourlyrate">0</span> /hr</td>
+              <td><span id="elapsedTaskTime">0</span> seconds</td>
+              <td id="deletetask" class="delete">X</td>
+            </tr>
+            </tbody>
+          </table>
+          <div style="clear: both;"></div>
         <div id="timer">
         <form>
           <button class="button green left" id="start" type="button">Start</button>&nbsp;&nbsp;&nbsp;Add <span id="time">0</span> seconds

@@ -11,10 +11,12 @@ const Schema = mongoose.Schema;
 const tasksSchema = new Schema({
   title: { type: String, required: true },
   completed: { type: Boolean, default: false },
-  totalTime: { type: Number, 'default': 0 },
+  totalTime: { type: Date },
   startTime: { type: Date },
   endTime: { type: Date },
   due: { type: Date },
+  isBillable: { type: Boolean, default: false },
+  rate: { type: Number, 'default': 0 },
   isMilestone: { type: Boolean, default: false },
   milestoneName: { type: String },
   projID: { type: String },

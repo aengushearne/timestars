@@ -11,6 +11,8 @@ const Schema = mongoose.Schema;
 const projectsSchema = new Schema({
   title: { type: String, required: true },
   completed: { type: Boolean, default: false },
+  totalHours: { type: Date },
+  totalBillable: { type: Number, 'default': 0 },
   startDate: { type: Date, 'default': Date.now },
   endDate: { type: Date },
   userID: { type: String },
