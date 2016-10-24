@@ -5,7 +5,7 @@ function addTodo(todo) {
   const todolist = $('.todolist');
 
   todolist.append(`
-    <li class="${ todo.completed }" data-id="${ todo._id }">${todo.todo}</li>
+    <li class="${ todo.completed }" data-id="${ todo._id }">${todo.todo}<span class="list-delete delete right inactive">X</span></li>
       `);
 }
 // Renders a new project and adds it to datalist dropdown
@@ -91,7 +91,11 @@ $('#tasklist').change(function(){
     }
   }).then(task => {
     $('#selectedtask').text(task.data[0].title);
-    $('#taskbillable').text(task.data[0].isBillable)
+    if (task.data[0].isBillable && task.data[0].rate!==0) {
+      $('.billable').removeClass('off');
+    } else {
+      $('.billable').addClass('off');
+      };
     $('#hourlyrate').text(task.data[0].rate);
     $('#elapsedTaskTime').text(task.data[0].totalTime);
   });
@@ -127,15 +131,30 @@ $('#deleteproj').on('click', function(){
     query:{
       projID: projId
     }
-  }).then(task => {
-    task.data.forEach(entry => {
-      tasksService.remove(entry._id) 
-    });
-  });
+  }).then(task => task.data.forEach(taskEntry => {//tasksService.remove(entry._id) ));
+
+      listsService.find({
+        query:{
+          taskID: taskEntry._id
+        }
+      }).then(todo => todo.data.forEach(entry => listsService.remove(entry._id) ));
+
+      $('#tasklist').children('option[data-id='+taskEntry._id+']').remove();
+      tasksService.remove(taskEntry._id);
+    }));
 
   $('#selectedproj').text('------------');
   $('#totalprojhours').text('0');
   $('#totalbill').text('0');
+
+  $('#selectedtask').text('------------');
+  $('.billable').addClass('off')
+  $('#hourlyrate').text('0');
+  $('#elapsedTaskTime').text('0');
+  $('.todolist').html('');
+
+  $('#tododiv').fadeOut('slow').addClass('inactive');
+  $('#task').fadeOut('slow').addClass('inactive');
 });
 
 // Delete a task
@@ -200,7 +219,7 @@ $('#newtask').on('submit', function(ev) {
     newtask.val('');
     selectedTask = task._id;
     $('#selectedtask').text(task.title);
-    $('#taskbillable').text(task.isBillable)
+    $('.billable').addClass('off')
     $('#hourlyrate').text(task.rate);
     $('#elapsedTaskTime').text(task.totalTime);
   }
@@ -249,7 +268,7 @@ $(document).on('click','li', function(){
   listsService.update(itemId,{
     $set: {
     //todo: true
-    completed: 'done' 
+    completed: true 
     }
   });
 
@@ -259,10 +278,29 @@ $(document).on('click','li', function(){
 //  $(this).toggleClass('strike');//.fadeOut('slow');
 });
 
+// Display delete button
+$(document).on('mouseenter','li', function(){
+    $(this).find('span').removeClass('inactive');
+  }).on('mouseleave','li', function(){
+    $(this).find('span').addClass('inactive');
+  });
+
 // Delete a list item
+$(document).on('click','.list-delete', function(){
+  const itemId = $(this).parent().data('id');
+  listsService.remove(itemId);
+  $(this).parent().fadeOut('slow');//.toggleClass('show-hide');
+});
+
+// Archive a list item
 $(document).on('dblclick','li', function(){
   const itemId = $(this).data('id');
-  listsService.remove(itemId);
+  listsService.update(itemId,{
+    $set: {
+    completed: true,
+    archived: true 
+    }
+  });
   $(this).fadeOut('slow');//.toggleClass('show-hide');
 });
 
@@ -270,6 +308,58 @@ $(document).on('dblclick','li', function(){
 $('#logout').on('click', function() {
   app.logout().then(() => window.location.href = '/index.html');
 });
+
+// Make billable
+$('#taskbillable').on('click', function() {
+  $('.billable').removeClass('off');
+  
+  $('#hourlyrate').html('<input id="rate" name="rate" type="number"></input>');
+});
+
+function setRate() {
+  let rate = 0;
+  ($('#rate').val()?rate=$('#rate').val():0);
+  console.log('setRate: '+rate);
+  if (rate > 0) {
+  tasksService.update(selectedTask,{
+    $set: {
+    isBillable: true
+    }
+  });
+
+  tasksService.update(selectedTask,{
+    $set: {
+    rate: rate
+    }
+  });
+} else {
+  tasksService.update(selectedTask,{
+    $set: {
+    isBillable: false
+    }
+  });
+  tasksService.update(selectedTask,{
+    $set: {
+    rate: 0
+    }
+  });
+  $('.billable').addClass('off');
+}
+    $('#hourlyrate').text(rate);
+};
+
+$('#hourlyrate').on('blur', '#rate', function() {
+  setRate();
+  console.log('onBlur rate: ');
+});
+
+$('#hourlyrate').on('keydown', function(e) {
+    // trap the return key being pressed
+    if (e.keyCode === 13) {
+      setRate();
+      e.preventDefault();
+    }
+  });
 
 // Clock display
 function time() {
@@ -314,6 +404,7 @@ function timer() {
   var end = moment();
   duration = end.diff(now, 'seconds');//from(now, true);
   $('#time').text(duration);
+  billPerTask(duration);
 
   timerId = setTimeout(timer, 1000);
 }
@@ -325,6 +416,19 @@ $('#stop').on('click', function() {
   clearTimeout(timerId);
   taskTime(duration);
 });
+
+function billPerTask(t) {
+  console.log('t: '+t);
+  let r = $('#hourlyrate').text();
+  console.log('r: '+r);
+  let et = $('#elapsedTaskTime').text();
+  console.log('et: '+et);
+  let tt = et + t;
+  console.log('tt');
+  let bill = (r/3600)*tt;
+  console.log('bill: '+bill);
+  $('#taskbill').text(bill.toFixed(2));
+}
 
 //function load() {
   // Find the latest 10 todos. They will come with the newest first

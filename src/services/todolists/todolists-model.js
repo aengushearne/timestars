@@ -11,6 +11,7 @@ const Schema = mongoose.Schema;
 const toDoListsSchema = new Schema({
   todo: { type: String, required: true },
   completed: { type: Boolean, default: false },
+  archived: { type: Boolean, default: false },
   completedDate: { type: Date },
   due: { type: Date },
   taskID: { type: String },

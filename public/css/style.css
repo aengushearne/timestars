@@ -1,6 +1,4 @@
-xdiv {
-	border: dashed 1px lightgrey;
-}
+
 .green {
 	background-color: #31D8A0;
 	color: white;
@@ -45,8 +43,18 @@ xdiv {
 table {
 	color: lightgreen;
 }
-xtd {
-	text-align: center;
-	border: dashed 1px lightgrey;
-	color: lightgreen;
+input[type="number"] {
+	height: 1.5em;
+    width: 2em;
+    border-radius: 2px;
+    margin-bottom: 0;
+    padding: 2px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }

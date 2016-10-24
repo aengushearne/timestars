@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 const tasksSchema = new Schema({
   title: { type: String, required: true },
   completed: { type: Boolean, default: false },
-  totalTime: { type: Date },
+  totalTime: { type: Number , 'default': 0 },
   startTime: { type: Date },
   endTime: { type: Date },
   due: { type: Date },
