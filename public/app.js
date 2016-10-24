@@ -1,11 +1,14 @@
 'use strict';
 
-// Renders a new todo and finds the user that belongs to the todo
+// Renders a new todo
 function addTodo(todo) {
   const todolist = $('.todolist');
-
+  let status = '';
+  (todo.completed?status='done ':'');
+  let archive = '';
+  (todo.archived?archive='inactive':'');
   todolist.append(`
-    <li class="${ todo.completed }" data-id="${ todo._id }">${todo.todo}<span class="list-delete delete right inactive">X</span></li>
+    <li class="`+status+archive+`" data-id="${ todo._id }">${todo.todo}<span class="list-delete delete right inactive">X</span></li>
       `);
 }
 // Renders a new project and adds it to datalist dropdown
@@ -43,9 +46,10 @@ const app = feathers()
 const listsService = app.service('todolists');
 const projectsService = app.service('projects');
 const tasksService = app.service('tasks');
+const profileService = app.service('profile');
 
-var selectedProject = 0;
-var selectedTask = 0;
+var selectedProject = false;
+var selectedTask = false;
 
 // Set currently selected project & task
 $('#projlist').change(function(){
@@ -296,6 +300,31 @@ $(document).on('click','li', function(){
 
   $(this).toggleClass('done');
 //  $(this).toggleClass('strike');//.fadeOut('slow');
+  // Points!!!
+  var userID;
+
+    listsService.find({
+      query: {
+      _id: itemId,
+      $select: ['userID']
+      }
+    }).then(function(res) {
+      userID = res.data[0].userID;
+    });
+/*
+    profileService.find({
+      query: {
+      userID: userID,
+      $select: ['points']
+      }
+    }).then(function(res) {
+      console.log(res.data[0].points);
+      points = res.data[0].points;
+      newpoints += points;
+      console.log(newpoints);
+    });
+*/
+
 });
 
 // Display delete button
@@ -339,7 +368,7 @@ $('#taskbillable').on('click', function() {
 function setRate() {
   let rate = 0;
   ($('#rate').val()?rate=$('#rate').val():0);
-  console.log('setRate: '+rate);
+  //console.log('setRate: '+rate);
   if (rate > 0) {
   tasksService.update(selectedTask,{
     $set: {
@@ -370,7 +399,7 @@ function setRate() {
 
 $('#hourlyrate').on('blur', '#rate', function() {
   setRate();
-  console.log('onBlur rate: ');
+  //console.log('onBlur rate: ');
 });
 
 $('#hourlyrate').on('keydown', function(e) {
@@ -391,7 +420,7 @@ function time() {
 time()
 
 
-// Add elapsed time to task total
+// Add elapsed time to task & project total
 function taskTime(add) {
 
   var elapsed;
@@ -413,12 +442,31 @@ tasksService.find({
     }
   });
 });
+
+projectsService.find({
+  query: {
+    _id: selectedProject,
+    $select: ['totalHours']
+  }
+}).then(function(res) {
+ elapsed = res.data[0].totalHours;
+ var total = elapsed + add;
+
+ (selectedProject?$('#totalprojhours').text(total):0);
+
+    projectsService.update(selectedProject,{
+    $set: {
+    totalHours: total
+    }
+  });
+});
 }
 
 // Timer
 var now;
 var timerId;
-var duration;
+var duration = 0;
+var added;
 
 function timer() {
   var end = moment();
@@ -435,10 +483,32 @@ $('#start').on('click', function() {
 $('#stop').on('click', function() {
   clearTimeout(timerId);
   taskTime(duration);
+
+  projectsService.find({
+  query: {
+    _id: selectedProject,
+    $select: ['totalBillable']
+  }
+}).then(function(res) {
+ let previousProjBill = res.data[0].totalBillable;
+ var total = (previousProjBill + bill).toFixed(2);
+
+ (selectedProject?$('#totalbill').text(total):0);
+
+    projectsService.update(selectedProject,{
+    $set: {
+    totalBillable: total
+    }
+  });
+});
+added = duration;
+duration = 0;
+$('#time').text(added);
 });
 
+var bill = 0;
 function billPerTask() {
-  let t = Number($('#time').text());
+  let t = duration;//Number($('#time').text());
 //  console.log('t: '+t);
   let r = ((100 * $('#hourlyrate').text())/60)/60;
 //  console.log('r: '+r);
@@ -446,11 +516,30 @@ function billPerTask() {
 //  console.log('et: '+et);
   let tt = et + t;
 //  console.log('tt: '+tt);
-  let bill = (r*tt)/100;
+  bill = (r*tt)/100;
 //  console.log('bill: '+bill);
   $('#taskbill').text(bill.toFixed(2));
 }
 
+// Check for profile ***Do this in a hook instead***
+/*function checkProfile() {
+profileService.find({
+      query: {
+      userID: userID,
+      $select: ['points']
+      }
+    }).then(function(res, error) {
+      console.log
+    });
+  }
+checkProfile()*/
+function newProf(){
+  profileService.create({
+    message: 'new',
+    milestones: 1
+  }).then(proj => console.log('profile created!'));
+}
+newProf()
 //function load() {
   // Find the latest 10 todos. They will come with the newest first
   // which is why we have to reverse before adding them

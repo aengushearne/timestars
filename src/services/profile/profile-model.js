@@ -9,8 +9,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const profileSchema = new Schema({
-  text: { type: String, required: true },
+  message: { type: String },
   userID: { type: String },
+  name: { type: String },
+  points: { type: Number, default: 0 },
+  milestones: { type: Number, default: 0 },
   
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }

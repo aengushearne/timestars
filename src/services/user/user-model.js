@@ -19,9 +19,6 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   
   active: { type: Boolean, default: true },
-  name: { type: String },
-  points: { type: Number, default: 0 },
-  milestones: { type: Number, default: 0 },
   
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }
