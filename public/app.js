@@ -44,9 +44,8 @@ const listsService = app.service('todolists');
 const projectsService = app.service('projects');
 const tasksService = app.service('tasks');
 
-var selectedProject;
-var selectedTask;
-var selectedList;
+var selectedProject = 0;
+var selectedTask = 0;
 
 // Set currently selected project & task
 $('#projlist').change(function(){
@@ -76,6 +75,12 @@ $('#projlist').change(function(){
     $('#tododiv').fadeOut('slow').addClass('inactive');
     page.data.reverse().forEach(addTask);
   });
+  $('#selectedtask').text('------------');
+  $('.billable').addClass('off')
+  $('#hourlyrate').text('0');
+  $('#taskbill').text('0');
+  $('#elapsedTaskTime').text('0');
+  $('.todolist').html('');
   $('#task').fadeIn('slow').removeClass('inactive');
 });
 
@@ -98,6 +103,7 @@ $('#tasklist').change(function(){
       };
     $('#hourlyrate').text(task.data[0].rate);
     $('#elapsedTaskTime').text(task.data[0].totalTime);
+    billPerTask(0)
   });
 
       listsService.find({
@@ -148,13 +154,15 @@ $('#deleteproj').on('click', function(){
   $('#totalbill').text('0');
 
   $('#selectedtask').text('------------');
-  $('.billable').addClass('off')
+  $('.billable').addClass('off');
   $('#hourlyrate').text('0');
+  $('#taskbill').text('0');
   $('#elapsedTaskTime').text('0');
   $('.todolist').html('');
 
   $('#tododiv').fadeOut('slow').addClass('inactive');
   $('#task').fadeOut('slow').addClass('inactive');
+  selectedProject = 0;
 });
 
 // Delete a task
@@ -170,17 +178,19 @@ $('#deletetask').on('click', function(){
   }).then(todo => todo.data.forEach(entry => listsService.remove(entry._id) ));
 
   $('#selectedtask').text('------------');
-  $('#taskbillable').text()
+  $('.billable').addClass('off');
   $('#hourlyrate').text('0');
+  $('#taskbill').text('0');
   $('#elapsedTaskTime').text('0');
   $('.todolist').html('');
+  selectedTask = 0;
 });
 
+// Create a new project 
 $('#newproject').on('submit', function(ev) {
   // This is the project text input field
   const project = $(this).find('[name="project-title"]');
 
-  // Create a new project and then clear the input field
   projectsService.create({
     title: project.val(),
     completed: false/*,
@@ -197,14 +207,22 @@ $('#newproject').on('submit', function(ev) {
   });
 
   ev.preventDefault();
+  $('.taskmenuitem').remove();
+  $('#selectedtask').text('------------');
+  $('.billable').addClass('off');
+  $('#hourlyrate').text('0');
+  $('#taskbill').text('0');
+  $('#elapsedTaskTime').text('0');
+  $('.todolist').html('');
+  $('#tododiv').fadeOut('slow').addClass('inactive');
   $('#task').fadeIn('slow').removeClass('inactive');
  });
 
+// Create a new task
 $('#newtask').on('submit', function(ev) {
   // This is the task text input field
   const newtask = $(this).find('[name="task-title"]');
 
-  // Create a new task and then clear the input field
   tasksService.create({
     title: newtask.val(),
     /*completed: false,
@@ -220,12 +238,14 @@ $('#newtask').on('submit', function(ev) {
     selectedTask = task._id;
     $('#selectedtask').text(task.title);
     $('.billable').addClass('off')
+    $('#taskbill').text('0');
     $('#hourlyrate').text(task.rate);
     $('#elapsedTaskTime').text(task.totalTime);
   }
   );
 
   ev.preventDefault();
+  $('.todolist').html('');
   $('#tododiv').fadeIn('slow').removeClass('inactive');
  });
 
@@ -404,7 +424,7 @@ function timer() {
   var end = moment();
   duration = end.diff(now, 'seconds');//from(now, true);
   $('#time').text(duration);
-  billPerTask(duration);
+  billPerTask();
 
   timerId = setTimeout(timer, 1000);
 }
@@ -417,16 +437,17 @@ $('#stop').on('click', function() {
   taskTime(duration);
 });
 
-function billPerTask(t) {
-  console.log('t: '+t);
-  let r = $('#hourlyrate').text();
-  console.log('r: '+r);
-  let et = $('#elapsedTaskTime').text();
-  console.log('et: '+et);
+function billPerTask() {
+  let t = Number($('#time').text());
+//  console.log('t: '+t);
+  let r = ((100 * $('#hourlyrate').text())/60)/60;
+//  console.log('r: '+r);
+  let et = Number($('#elapsedTaskTime').text());
+//  console.log('et: '+et);
   let tt = et + t;
-  console.log('tt');
-  let bill = (r/3600)*tt;
-  console.log('bill: '+bill);
+//  console.log('tt: '+tt);
+  let bill = (r*tt)/100;
+//  console.log('bill: '+bill);
   $('#taskbill').text(bill.toFixed(2));
 }
 
