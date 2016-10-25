@@ -9,7 +9,8 @@ exports.before = {
   all: [
   auth.verifyToken(),
   auth.populateUser(),
-  auth.restrictToAuthenticated()
+  auth.restrictToAuthenticated(),
+  //auth.restrictToOwner({ ownerField: '_id' })
   ],
   find: [],
   get: [],

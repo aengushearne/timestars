@@ -46,7 +46,7 @@ const app = feathers()
 const listsService = app.service('todolists');
 const projectsService = app.service('projects');
 const tasksService = app.service('tasks');
-const profileService = app.service('profile');
+const profileService = app.service('userprofiles');
 
 var selectedProject = false;
 var selectedTask = false;
@@ -274,6 +274,9 @@ $('#list').on('submit', function(ev) {
 $(document).on('click','li', function(){
 
   const itemId = $(this).data('id');
+  
+  var userID;
+  
  // const theclass = $(this).prop('class');
 //  console.log(itemId);
  // $('.test').append(itemId);
@@ -287,6 +290,32 @@ $(document).on('click','li', function(){
     }
   });
 
+      listsService.find({
+      query: {
+      _id: itemId,
+      $select: ['userID']
+      }
+    }).then(function(res) {
+      userID = res.data[0].userID;
+    });
+
+      profileService.find({
+      query: {
+      userID: userID,
+      $select: ['points']
+      }
+    }).then(function(res) {
+      let profID = res.data[0]._id;
+      let points = res.data[0].points;
+      let newpoints = points - 1;
+      profileService.update(profID,{
+        $set: {
+        points: newpoints
+      }
+      });
+      $('.points').text(newpoints);
+    });
+
   } else {
 
   listsService.update(itemId,{
@@ -296,13 +325,6 @@ $(document).on('click','li', function(){
     }
   });
 
-  }
-
-  $(this).toggleClass('done');
-//  $(this).toggleClass('strike');//.fadeOut('slow');
-  // Points!!!
-  var userID;
-
     listsService.find({
       query: {
       _id: itemId,
@@ -311,19 +333,29 @@ $(document).on('click','li', function(){
     }).then(function(res) {
       userID = res.data[0].userID;
     });
-/*
+    
     profileService.find({
       query: {
       userID: userID,
       $select: ['points']
       }
     }).then(function(res) {
-      console.log(res.data[0].points);
-      points = res.data[0].points;
-      newpoints += points;
-      console.log(newpoints);
+      let profID = res.data[0]._id;
+      let points = res.data[0].points;
+      let newpoints = points + 1;
+      profileService.update(profID,{
+        $set: {
+        points: newpoints
+      }
+      });
+      $('.points').text(newpoints);
     });
-*/
+
+  }
+
+  $(this).toggleClass('done');
+//  $(this).toggleClass('strike');//.fadeOut('slow');
+  // Points!!!
 
 });
 
@@ -521,25 +553,6 @@ function billPerTask() {
   $('#taskbill').text(bill.toFixed(2));
 }
 
-// Check for profile ***Do this in a hook instead***
-/*function checkProfile() {
-profileService.find({
-      query: {
-      userID: userID,
-      $select: ['points']
-      }
-    }).then(function(res, error) {
-      console.log
-    });
-  }
-checkProfile()*/
-function newProf(){
-  profileService.create({
-    message: 'new',
-    milestones: 1
-  }).then(proj => console.log('profile created!'));
-}
-newProf()
 //function load() {
   // Find the latest 10 todos. They will come with the newest first
   // which is why we have to reverse before adding them

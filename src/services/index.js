@@ -1,7 +1,7 @@
 'use strict';
+const userprofiles = require('./userprofiles');
 const tasks = require('./tasks');
 const projects = require('./projects');
-const profile = require('./profile');
 const toDoLists = require('./todolists');
 const authentication = require('./authentication');
 const user = require('./user');
@@ -15,7 +15,7 @@ module.exports = function() {
   app.configure(authentication);
   app.configure(user);
   app.configure(toDoLists);
-  app.configure(profile);
   app.configure(projects);
   app.configure(tasks);
+  app.configure(userprofiles);
 };

@@ -10,12 +10,7 @@ module.exports = function(app) {
       password: body.password
     })
     // Then redirect to the login page
-    .then(user => {
-      app.service('profile').create({
-        milestones: 1
-      });
-      res.redirect('/login.html');
-    })
+    .then(user => res.redirect('/login.html'))
     // On errors, just call our error middleware
     .catch(next);
   };
