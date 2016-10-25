@@ -10,7 +10,24 @@ module.exports = function(app) {
       password: body.password
     })
     // Then redirect to the login page
-    .then(user => res.redirect('/login.html'))
+    .then(user => {
+      //console.log(user);
+      let uID = user._id;
+      console.log('uID: '+uID);
+      app.service('users').before({
+ create(hook) {
+   return app.service('profiles').create(hook.data.profile, hook.params)
+     .then(profile => {
+       // link by id instead
+       hook.data.profile = profile._id;
+
+       return hook;
+     });
+ }
+});
+      res.redirect('/login.html');
+    }
+    )
     // On errors, just call our error middleware
     .catch(next);
   };

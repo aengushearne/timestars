@@ -333,7 +333,7 @@ $(document).on('click','li', function(){
     }).then(function(res) {
       userID = res.data[0].userID;
     });
-    
+
     profileService.find({
       query: {
       userID: userID,
@@ -586,3 +586,11 @@ app.authenticate().then(() => {
     window.location.href = '/login.html'
   }
 });
+
+// Open help modal window
+$("a[data-modal]").on('click', function() {
+    $(this).modal({
+  fadeDuration: 1000,
+  fadeDelay: 0.50
+    });
+  });

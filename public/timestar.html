@@ -21,6 +21,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="jquery-modal/jquery.modal.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="css/style.css">
 
   <!-- Favicon
@@ -30,6 +31,26 @@
 </head>
 <body>
 
+<!-- Help modal content -->
+<div id='help' style='display:none;'><h6>Projects</h6>
+Each new project created become the currently selected one. 
+To delete a project click the X. 
+Deleteing a project deletes also all it's tasks and to-do items.
+<p>
+<h6>Tasks</h6>
+Each new task created become the currently selected one. 
+To delete a project click the X. 
+Deleteing a task also deletes all it's to-do items. 
+To make a task billable click the $ sign, type a rate and hit enter or click out. 
+Click 'Start' to start a work timer. 
+The work timer will calculate a total bill for each task and add the task hours and bill (if billing is switched on) to the project total. 
+<p>
+<h6>To-dos</h6>
+Click a to-do once to mark done or click again to mark not done. 
+Click the X to delete. 
+Double click to archive the to-do. 
+
+</div>
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -43,8 +64,10 @@
   <h1 class="notgrey" style="text-align: center;">TimeStars</h1>
   </div>
   <div class="one-third column">
+  <div><a href="#help" data-modal class='right help-button green circle'>?</a></div> 
   <button class="button green right" id="logout" type="button">Logout</button>
-  <span>Points:<span class="points"></span></span>
+  <span>Points:<span class="points">0</span></span>
+  
   <div style="clear: both;"></div>
   </div>
 
@@ -71,7 +94,7 @@
             <tbody>
             <tr class="projtr">
               <td id="selectedproj">------------</td>
-              <td class="grey"><span id="totalprojhours">0</span>/s</td>
+              <td class=""><span id="totalprojhours">0</span>/s</td>
               <td class="billable off">$<span id="totalbill">0</span></td>
               <td id="deleteproj" class="delete">X</td>
             </tr>
@@ -137,6 +160,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 <script src="//code.jquery.com/jquery-2.2.1.js"></script>
+<script src="jquery-modal/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.1.4/core.min.js"></script>
 <script src="//unpkg.com/feathers-client@^1.0.0/dist/feathers.js"></script>
 <script src="/socket.io/socket.io.js"></script>

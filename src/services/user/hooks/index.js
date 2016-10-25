@@ -1,5 +1,7 @@
 'use strict';
 
+//const userprof = require('./userprof');
+
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
@@ -44,7 +46,9 @@ exports.after = {
   all: [hooks.remove('password')],
   find: [],
   get: [],
-  create: [],
+  create: [
+  //userprof()
+  ],
   update: [],
   patch: [],
   remove: []

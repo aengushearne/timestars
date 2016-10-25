@@ -1,7 +1,12 @@
 body {
-	background-color: grey;
+	background-color: #609986;
 }
-
+h6 {
+	font-size: 20px;
+}
+.unset-css {
+	all:unset;
+}
 .green {
 	background-color: #31D8A0;
 	color: white;
@@ -60,4 +65,19 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield;
+}
+.help-button {
+	text-align: center;
+	margin-left: 20px;
+	font-size: 22px;
+	padding-top: 1px;
+}
+a.help-button:link { color: white; text-decoration:none; font-weight:normal; }
+a.help-button:visited { color: white; text-decoration:none; font-weight:normal; }
+a.help-button:hover { color: grey; text-decoration:none; font-weight:normal; }
+a.help-button:active { color: white; text-decoration:none; font-weight:normal; }
+.circle {
+	border-radius: 50%;
+	width: 37px;
+	height: 37px;
 }
