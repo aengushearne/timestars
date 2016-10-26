@@ -11,14 +11,24 @@ exports.before = {
   auth.populateUser(),
   auth.restrictToAuthenticated()
   ],
-  find: [],
-  get: [],
+  find: [
+  auth.queryWithCurrentUser({ idField: '_id', as: 'userID' })
+  ],
+  get: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ],
   create: [
   globalHooks()
   ],
-  update: [],
-  patch: [],
-  remove: []
+  update: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ],
+  patch: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ],
+  remove: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ]
 };
 
 exports.after = {

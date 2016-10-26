@@ -1,25 +1,35 @@
 'use strict';
 
 const globalHooks = require('../../../hooks');
-const auth = require('feathers-authentication').hooks;
 const hooks = require('feathers-hooks');
+const auth = require('feathers-authentication').hooks;
 
 
 exports.before = {
   all: [
   auth.verifyToken(),
   auth.populateUser(),
-  auth.restrictToAuthenticated(),
-  // auth.restrictToOwner({ ownerField: 'userID' })
+  auth.restrictToAuthenticated()
   ],
-  find: [],
-  get: [],
+  find: [
+  auth.queryWithCurrentUser({ idField: '_id', as: 'userID' })
+  ],
+  get: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ],
   create: [
+  //auth.restrictToOwner({ idField: '_id', ownerField: 'userID' }),
   globalHooks()
   ],
-  update: [],
-  patch: [],
-  remove: []
+  update: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ],
+  patch: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ],
+  remove: [
+  auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
+  ]
 };
 
 exports.after = {

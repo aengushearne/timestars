@@ -16,9 +16,9 @@ module.exports = function(app) {
       newID = user._id;
       app.service('userprofiles').create({
    userID: newID,
-   message: 'This totally worked!!!'
+   message: 'Welcome!!!',
+   milestones: 1
    });
-      console.log('uID: '+newID);
  res.redirect('/login.html');
     })
     // On errors, just call our error middleware
