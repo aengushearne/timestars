@@ -482,7 +482,8 @@ projectsService.find({
   }
 }).then(function(res) {
  elapsed = res.data[0].totalHours;
- var total = elapsed + add;
+ var totalsecs = elapsed + add;
+ var total = Math.floor(totalsecs / 3600);
 
  (selectedProject?$('#totalprojhours').text(total):0);
 

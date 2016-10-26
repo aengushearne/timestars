@@ -20,14 +20,21 @@ module.exports = function(options) {
   };
 };
 */
-app.service('users').before({
- create(hook) {
-   return app.service('profiles').create(hook.data.profile, hook.params)
-     .then(profile => {
-       // link by id instead
-       hook.data.profile = profile._id;
 
-       return hook;
-     });
- }
-});
+const app = feathers().configure(hooks());
+
+module.exports = function(options) {
+  return function(hook) {
+
+  	    // The authenticated user
+    const user = hook.params.user;
+    const profService = app.service('userprofiles');
+      
+      profService.create({
+      	userID: user._id,
+      message: 'Welcome!!',
+      milestones: 1,
+    });
+    console.log('User profile finally created! Feathers is awesome!');
+  };
+};
