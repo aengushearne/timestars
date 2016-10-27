@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const tasksSchema = new Schema({
-  title: { type: String, required: true, maxlength: 14 },
+  title: { type: String, required: true, maxlength: 24 },
   completed: { type: Boolean, default: false },
   totalTime: { type: Number , 'default': 0 },
   startTime: { type: Date },
