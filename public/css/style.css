@@ -7,12 +7,15 @@ h6 {
 .unset-css {
 	all:unset;
 }
+.lightgrey {
+	color: #80CCB3;
+}
 .green {
-	background-color: #31D8A0;
+	background-color: #80CCB3;
 	color: white;
 }
 .done {
-	color: lightgreen;
+	color: #A0FFDF;
 	text-decoration: line-through;
 }
 .show-hide {
@@ -34,7 +37,7 @@ h6 {
 	display: none;
 }
 .componentdiv {
-	border: solid 4px #31D8A0;
+	border: solid 2px #80CCB3; /* 31D8A0; */
 	border-radius: 20px;
 	padding: 25px;
 	margin-top: 15px;
