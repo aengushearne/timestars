@@ -84,7 +84,7 @@ Double click to archive the to-do.
 
           <form id="newproject">
             <button class="button green right" id="createproject" type="submit">Create Project</button>
-            <input type="text" name="project-title" class="left">
+            <input type="text" name="project-title" maxlength="14" class="left">
           </form>
           <div style="clear: both;"></div>
           <select id="projlist">
@@ -107,7 +107,7 @@ Double click to archive the to-do.
 
         <form id="newtask">
           <button class="button green right" id="createtask" type="submit">Create Task</button>
-          <input type="text" name="task-title" class="left">
+          <input type="text" name="task-title" maxlength="14" class="left">
         </form>
 
           <div style="clear: both;"></div>
@@ -140,7 +140,7 @@ Double click to archive the to-do.
 
       <div id="tododiv" class="six columns componentdiv inactive">
       <form id="list">
-      	<input type="text" name="todo">
+      	<input type="text" name="todo" maxlength="40">
       	<button class="button green right" type="submit">Create To-do Item</button>
       </form>
       <div class="title">To do:</div>

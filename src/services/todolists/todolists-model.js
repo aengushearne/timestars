@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const toDoListsSchema = new Schema({
-  todo: { type: String, required: true },
+  todo: { type: String, required: true, maxlength: 40 },
   completed: { type: Boolean, default: false },
   archived: { type: Boolean, default: false },
   completedDate: { type: Date },

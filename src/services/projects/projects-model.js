@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const projectsSchema = new Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: true, maxlength: 14 },
   completed: { type: Boolean, default: false },
   totalHours: { type: Number, 'default': 0 },
   totalBillable: { type: Number, 'default': 0 },
