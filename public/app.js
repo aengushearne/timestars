@@ -385,11 +385,6 @@ $(document).on('dblclick','li', function(){
   $(this).fadeOut('slow');//.toggleClass('show-hide');
 });
 
-// Logout button
-$('#logout').on('click', function() {
-  app.logout().then(() => window.location.href = '/index.html');
-});
-
 // Make billable
 $('#taskbillable').on('click', function() {
   $('.billable').removeClass('off');
@@ -577,6 +572,7 @@ app.authenticate().then(() => {
 
   // Listen to created events and add the new task in real-time
   tasksService.on('created', addTask);
+   tasksService.on('removed', addTask);
 })
 
 //load()
@@ -584,8 +580,14 @@ app.authenticate().then(() => {
 // On unauthorized errors we just redirect back to the login page
 .catch(error => {
   if(error.code === 401) {
-    window.location.href = '/login.html'
+    //window.location.href = '/login.html'
+    catch(error => console.log(error));
   }
+});
+
+// Logout button
+$('#logout').on('click', function() {
+  app.logout().then(() => window.location.href = '/index.html');
 });
 
 // Open help modal window
