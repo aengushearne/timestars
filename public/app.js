@@ -578,12 +578,14 @@ app.authenticate().then(() => {
 //load()
 
 // On unauthorized errors we just redirect back to the login page
+.catch(error => console.log(error));
+/*
 .catch(error => {
   if(error.code === 401) {
-    //window.location.href = '/login.html'
-    catch(error => console.log(error));
+    window.location.href = '/login.html'
   }
 });
+*/
 
 // Logout button
 $('#logout').on('click', function() {
