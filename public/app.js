@@ -568,7 +568,7 @@ app.authenticate().then(() => {
 
   // Listen to created events and add the new todo in real-time
   listsService.on('created', addTodo);
-  listsService.on('removed', removeTodo);
+  // listsService.on('removed', removeTodo);
   
 
   // Listen to created events and add the new project in real-time
