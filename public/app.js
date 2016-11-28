@@ -373,6 +373,12 @@ $(document).on('click','.list-delete', function(){
   $(this).parent().fadeOut('slow');//.toggleClass('show-hide');
 });
 
+/*
+function removeTodo(todo) {
+$( todo ).parent().fadeOut('slow');
+}
+*/
+
 // Archive a list item
 $(document).on('dblclick','li', function(){
   const itemId = $(this).data('id');
@@ -562,7 +568,7 @@ app.authenticate().then(() => {
 
   // Listen to created events and add the new todo in real-time
   listsService.on('created', addTodo);
-
+  listsService.on('removed', removeTodo);
   
 
   // Listen to created events and add the new project in real-time
@@ -572,7 +578,7 @@ app.authenticate().then(() => {
 
   // Listen to created events and add the new task in real-time
   tasksService.on('created', addTask);
-   tasksService.on('removed', addTask);
+
 })
 
 //load()
