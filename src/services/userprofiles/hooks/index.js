@@ -17,7 +17,7 @@ exports.before = {
   auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
   ],
   create: [
-  globalHooks()
+  // globalHooks()
   ],
   update: [
   auth.restrictToOwner({ idField: '_id', ownerField: 'userID' })
