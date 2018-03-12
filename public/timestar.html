@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <!-- Basic Page Needs
@@ -15,7 +16,7 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -29,126 +30,137 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   -->
 </head>
+
 <body>
 
-<!-- Help modal content -->
-<div id='help' style='display:none;'><h6>Projects</h6>
-Creating a new project sets it as currently selected. 
-To delete a project click the X. 
-Deleteing a project deletes also all it's tasks and to-do items.
-<p>
-<h6>Tasks</h6>
-Creating a new task sets it as currently selected. 
-To delete a task click the X. 
-Deleteing a task also deletes all it's to-do items. 
-To make a task billable click the $ sign, type a rate and hit enter or click out. 
-Click 'Start' to start a work timer. 
-The work timer will calculate a total bill for each task and add the task hours and bill (if billing is switched on) to the project total. 
-<p>
-<h6>To-dos</h6>
-Click a to-do once to mark done or not done. 
-Click the X to delete. 
-Double click to archive the to-do. 
+  <!-- Help modal content -->
+  <div id='help' style='display:none;'>
+    <h6>Projects</h6>
+    Creating a new project sets it as currently selected. To delete a project click the X. Deleting a project also deletes all
+    it's tasks and to-do items.
+    <p>
+      <h6>Tasks</h6>
+      Creating a new task sets it as currently selected. To delete a task click the X. Deleting a task also deletes all it's to-do
+      items. To make a task billable click the $ sign, type a rate and hit enter or click out. Click 'Start' to start a work
+      timer. The work timer will calculate a total bill for each task and add the task hours and bill (if billing is switched
+      on) to the project total.
+      <p>
+        <h6>To-dos</h6>
+        Click a to-do once to mark done or not done. Click the X to delete. Double click to archive the to-do.
 
-</div>
+  </div>
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-  <div class="row componentdiv">
+    <div class="row componentdiv">
 
-  <div class="one-third column">
-  <h2><span class="clock left lightgrey"></span></h2>
-  </div>
-  <div class="one-third column">
-  <h1 class="notgrey" style="text-align: center;">TimeStars</h1>
-  </div>
-  <div class="one-third column">
-  <div><a href="#help" data-modal class='right help-button green circle'>?</a></div> 
-  <button class="button green right" id="logout" type="button">Logout</button>
-  <span>Points:<span class="points">0</span></span>
-  
-  <div style="clear: both;"></div>
-  </div>
-
-  </div>
-  </div>
-    
-  <div id='app'>
-  <div class="container">
-    <div class="row">
-    
-    <div class="six columns ">
-        
-        <div id="project" class="componentdiv">
-
-          <form id="newproject">
-            <button class="button green right" id="createproject" type="submit">Create Project</button>
-            <input type="text" name="project-title" maxlength="24" class="left">
-          </form>
-          <div style="clear: both;"></div>
-          <select id="projlist">
-          <option value="default" data-id="null">Projects ---></option>
-          </select>
-          <table class="selectedtable right">
-            <tbody>
-            <tr class="projtr">
-              <td id="selectedproj">------------</td>
-              <td class=""><span id="totalprojhours">0</span>/h</td>
-              <td class="billable off">$<span id="totalbill">0</span></td>
-              <td id="deleteproj" class="delete">X</td>
-            </tr>
-            </tbody>
-          </table>
-          <div style="clear: both;"></div>
+      <div class="one-third column">
+        <h2>
+          <span class="clock left lightgrey"></span>
+        </h2>
+      </div>
+      <div class="one-third column">
+        <h1 class="notgrey" style="text-align: center;">TimeStars</h1>
+      </div>
+      <div class="one-third column">
+        <div>
+          <a href="#help" data-modal class='right help-button green circle'>?</a>
         </div>
-        
-        <div id="task" class="componentdiv inactive">
+        <button class="button green right" id="logout" type="button">Logout</button>
+        <span>Points:
+          <span class="points">0</span>
+        </span>
 
-        <form id="newtask">
-          <button class="button green right" id="createtask" type="submit">Create Task</button>
-          <input type="text" name="task-title" maxlength="24" class="left">
-        </form>
-
-          <div style="clear: both;"></div>
-          <select id="tasklist">
-          <option value="default" data-id="null" selected>Tasks --------></option>
-          </select>
-          <table class="selectedtable right">
-            <thead></thead>
-            <tbody>
-            <tr>
-              <td id="selectedtask">------------</td>
-              <td class="billable off" id="taskbillable">$</td>
-              <td class="billable off">$<span id="hourlyrate">0</span> /hr</td>
-              <td class="billable off">$<span id="taskbill">0.00</span><td>
-              <td><span id="elapsedTaskTime">0</span> secs</td>
-              <td id="deletetask" class="delete">X</td>
-            </tr>
-            </tbody>
-          </table>
-          <div style="clear: both;"></div>
-        <div id="timer">
-        <form>
-          <button class="button green left" id="start" type="button">Start</button>&nbsp;&nbsp;&nbsp;Add <span id="time">0</span> seconds
-          <button class="button green right" id="stop" type="button">Stop</button>
-        </form>
-        </div>
-        </div>
+        <div style="clear: both;"></div>
+      </div>
 
     </div>
+  </div>
 
-      <div id="tododiv" class="six columns componentdiv inactive">
-      <form id="list">
-      	<input type="text" name="todo" maxlength="40">
-      	<button class="button green right" type="submit">Create To-do Item</button>
-      </form>
-      <div class="title">To do:</div>
-      <div id="tditem">
-      <ul class="todolist">
-      </ul>
-      </div>
-      </div>
+  <div id='app'>
+    <div class="container">
+      <div class="row">
+
+        <div class="six columns ">
+
+          <div id="project" class="componentdiv">
+
+            <form id="newproject">
+              <button class="button green right" id="createproject" type="submit">Create Project</button>
+              <input type="text" name="project-title" maxlength="24" class="left">
+            </form>
+            <div style="clear: both;"></div>
+            <select id="projlist">
+              <option value="default" data-id="null">Projects ---></option>
+            </select>
+            <table class="selectedtable right">
+              <tbody>
+                <tr class="projtr">
+                  <td id="selectedproj">------------</td>
+                  <td class="">
+                    <span id="totalprojhours">0</span>/h</td>
+                  <td class="billable off">$
+                    <span id="totalbill">0</span>
+                  </td>
+                  <td id="deleteproj" class="delete">X</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="clear: both;"></div>
+          </div>
+
+          <div id="task" class="componentdiv inactive">
+
+            <form id="newtask">
+              <button class="button green right" id="createtask" type="submit">Create Task</button>
+              <input type="text" name="task-title" maxlength="24" class="left">
+            </form>
+
+            <div style="clear: both;"></div>
+            <select id="tasklist">
+              <option value="default" data-id="null" selected>Tasks --------></option>
+            </select>
+            <table class="selectedtable right">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td id="selectedtask">------------</td>
+                  <td class="billable off" id="taskbillable">$</td>
+                  <td class="billable off">$
+                    <span id="hourlyrate">0</span> /hr</td>
+                  <td class="billable off">$
+                    <span id="taskbill">0.00</span>
+                    <td>
+                      <td>
+                        <span id="elapsedTaskTime">0</span> secs</td>
+                      <td id="deletetask" class="delete">X</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="clear: both;"></div>
+            <div id="timer">
+              <form>
+                <button class="button green left" id="start" type="button">Start</button>&nbsp;&nbsp;&nbsp;Add
+                <span id="time">0</span> seconds
+                <button class="button green right" id="stop" type="button">Stop</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="tododiv" class="six columns componentdiv inactive">
+          <form id="list">
+            <input type="text" name="todo" maxlength="40">
+            <button class="button green right" type="submit">Create To-do Item</button>
+          </form>
+          <div class="title">To do:</div>
+          <div id="tditem">
+            <ul class="todolist">
+            </ul>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -157,16 +169,17 @@ Double click to archive the to-do.
   <!-- JavaScript 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-<script src="//code.jquery.com/jquery-2.2.1.js"></script>
-<script src="jquery-modal/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.1.4/core.min.js"></script>
-<script src="//unpkg.com/feathers-client@^1.0.0/dist/feathers.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script type="text/babel" src="app.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+  <script src="//code.jquery.com/jquery-2.2.1.js"></script>
+  <script src="jquery-modal/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.1.4/core.min.js"></script>
+  <script src="//unpkg.com/feathers-client@^1.0.0/dist/feathers.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/babel" src="app.js"></script>
 
-<!-- End Document
+  <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
+
 </html>
